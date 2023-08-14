@@ -1,0 +1,229 @@
+       <div class='task' draggable='true'>
+          <div class='task__tags'><span class='task__tag task__tag--copyright'>${Users-occupation(ui-design}</span><button class='task__options'><i class='fas fa-ellipsis-h'></i></button></div>
+          <span>${Data}</span>
+          <div class='task__stats'>
+            <span>${RealTime><i class='fas fa-flag'></i></span>
+            <span class='task__owner'></span>
+          </div>
+        </div>
+        
+
+        <li>
+          <span class='task-icon task-icon--attachment'><i class='fas fa-paperclip'></i></span>
+          <b>${username} </b>${TheComment}
+          <time>${RealTiime}</time>
+        </li>
+needreview
+done
+inprog
+
+
+<li>
+          <span class='task-icon task-icon--attachment'><i class='fas fa-paperclip'></i></span>
+          <b>Andrea </b>uploaded 3 documents
+          <time datetime='2021-11-24T20:00:00'>Aug 10</time>
+</li>
+
+///////////
+ <div class='tag-progress'>
+        <p>Project Manager <span>3/8</span></p>
+        <progress class='progress progress--copyright' max='10' value='2'> 7 </progress>
+      </div>
+
+       <div class='tag-progress'>
+        <p>Developer <span>3/8</span></p>
+        <progress class='progress progress--copyright' max='10' value='2'> 7 </progress>
+      </div>
+
+      <div class='tag-progress'>
+        <p>Ui Designer <span>3/8</span></p>
+        <progress class='progress progress--copyright' max='10' value='2'> 7 </progress>
+      </div>
+
+      <div class='tag-progress'>
+        <p>Data Manager <span>3/8</span></p>
+        <progress class='progress progress--copyright' max='10' value='2'> 7 </progress>
+      </div>
+
+
+
+
+
+
+Message : 
+1#: div of user (position&name)
+2#:Groupe messages 
+3#:utility 
+4#:iploading files
+
+
+Tasks:
+Completed (client can't access it)
+
+Profile:
+Completed
+
+calendar: 
+Not even started it 
+
+files:
+Not even started it 
+
+Analytics:
+Not even started it 
+
+Dashboard:
+1#: a dev can see clients projects ideas if intrested can reaquest to be added to the team
+2#: when client creat account left div he can choose the dev or team
+3#: create a team
+4#: add a project
+
+ 
+
+
+
+<div class='message-box'>
+        <img src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80' alt='profile image'>
+        <div class='message-content'>
+          <div class='message-header'>
+            <div class='name'>Stephanie</div>
+            <div class='star-checkbox'>
+              <input type='checkbox' id='star-1'>
+              <label for='star-1'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'>
+                  <polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2' /></svg>
+              </label>
+            </div>
+          </div>
+          <p class='message-line'>
+            I got your first assignment. It was quite good. 🥳 We can continue with the next assignment.
+          </p>
+          <p class='message-line time'>
+            Dec, 12
+          </p>
+        </div>
+      </div>
+
+
+      <div class='project-box-wrapper'>
+        <div class='project-box' style='background-color: #e9e7fd;'>
+          <div class='project-box-header'>
+            <span>December 10, 2020</span>
+            <div class='more-wrapper'>
+              <button class='project-btn-more'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-more-vertical'>
+                  <circle cx='12' cy='12' r='1' />
+                  <circle cx='12' cy='5' r='1' />
+                  <circle cx='12' cy='19' r='1' /></svg>
+              </button>
+            </div>
+          </div>
+          <div class='project-box-content-header'>
+            <p class='box-content-header'>Testing</p>
+            <p class='box-content-subheader'>Prototyping</p>
+          </div>
+          <div class='box-progress-wrapper'>
+            <p class='box-progress-header'>Progress</p>
+            <div class='box-progress-bar'>
+              <span class='box-progress' style='width: 50%; background-color: #4f3ff0'></span>
+            </div>
+            <p class='box-progress-percentage'>50%</p>
+          </div>
+          <div class='project-box-footer'>
+            <div class='participants'>
+              <img src='https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1215&q=80' alt='participant'>
+              <img src='https://images.unsplash.com/photo-1583195764036-6dc248ac07d9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2555&q=80' alt='participant'>
+              <button class='add-participant' style='color: #4f3ff0;'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-plus'>
+                  <path d='M12 5v14M5 12h14' />
+                </svg>
+              </button>
+            </div>
+            <div class='days-left' style='color: #4f3ff0;'>
+              2 Days Left
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+       <div class='project-box-wrapper'>
+        <div class='project-box' style='background-color: #e9e7fd;'>
+          <div class='project-box-header'>
+            <span>December 10, 2020</span>
+            <div class='more-wrapper'>
+              <button class='project-btn-more'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-more-vertical'>
+                  <circle cx='12' cy='12' r='1' />
+                  <circle cx='12' cy='5' r='1' />
+                  <circle cx='12' cy='19' r='1' /></svg>
+              </button>
+            </div>
+          </div>
+          <div class='project-box-content-header'>
+            <p class='box-content-header'>Testing</p>
+            <p class='box-content-subheader'>Prototyping</p>
+          </div>
+          <div class='box-progress-wrapper'>
+            <p class='box-progress-header'>Progress</p>
+            <div class='box-progress-bar'>
+              <span class='box-progress' style='width: 50%; background-color: #4f3ff0'></span>
+            </div>
+            <p class='box-progress-percentage'>50%</p>
+          </div>
+          <div class='project-box-footer'>
+            <div class='participants'>
+              <img src='https://images.unsplash.com/photo-1596815064285-45ed8a9c0463?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1215&q=80' alt='participant'>
+              <img src='https://images.unsplash.com/photo-1583195764036-6dc248ac07d9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2555&q=80' alt='participant'>
+              <button class='add-participant' style='color: #4f3ff0;'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-plus'>
+                  <path d='M12 5v14M5 12h14' />
+                </svg>
+              </button>
+            </div>
+            <div class='days-left' style='color: #4f3ff0;'>
+              2 Days Left
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+      id='num_Tasks_nonDone' 
+      id='num_files'
+      id='num_Total' 
+
+
+      <svg fill='#000000' version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' 
+	 width='800px' height='800px' viewBox='0 0 482.428 482.429'
+	 xml:space='preserve'>
+<g>
+	<g>
+		<path d='M381.163,57.799h-75.094C302.323,25.316,274.686,0,241.214,0c-33.471,0-61.104,25.315-64.85,57.799h-75.098
+			c-30.39,0-55.111,24.728-55.111,55.117v2.828c0,23.223,14.46,43.1,34.83,51.199v260.369c0,30.39,24.724,55.117,55.112,55.117
+			h210.236c30.389,0,55.111-24.729,55.111-55.117V166.944c20.369-8.1,34.83-27.977,34.83-51.199v-2.828
+			C436.274,82.527,411.551,57.799,381.163,57.799z M241.214,26.139c19.037,0,34.927,13.645,38.443,31.66h-76.879
+			C206.293,39.783,222.184,26.139,241.214,26.139z M375.305,427.312c0,15.978-13,28.979-28.973,28.979H136.096
+			c-15.973,0-28.973-13.002-28.973-28.979V170.861h268.182V427.312z M410.135,115.744c0,15.978-13,28.979-28.973,28.979H101.266
+			c-15.973,0-28.973-13.001-28.973-28.979v-2.828c0-15.978,13-28.979,28.973-28.979h279.897c15.973,0,28.973,13.001,28.973,28.979
+			V115.744z'/>
+		<path d='M171.144,422.863c7.218,0,13.069-5.853,13.069-13.068V262.641c0-7.216-5.852-13.07-13.069-13.07
+			c-7.217,0-13.069,5.854-13.069,13.07v147.154C158.074,417.012,163.926,422.863,171.144,422.863z'/>
+		<path d='M241.214,422.863c7.218,0,13.07-5.853,13.07-13.068V262.641c0-7.216-5.854-13.07-13.07-13.07
+			c-7.217,0-13.069,5.854-13.069,13.07v147.154C228.145,417.012,233.996,422.863,241.214,422.863z'/>
+		<path d='M311.284,422.863c7.217,0,13.068-5.853,13.068-13.068V262.641c0-7.216-5.852-13.07-13.068-13.07
+			c-7.219,0-13.07,5.854-13.07,13.07v147.154C298.213,417.012,304.067,422.863,311.284,422.863z'/>
+	</g>
+</g>
+</svg>
+<svg width='24' height='24' viewBox='0 0 24 24'>
+  <path fill='currentColor' d='M19,6H5C4.4,6,4,6.4,4,7v12c0,0.6,0.4,1,1,1h14c0.6,0,1-0.4,1-1V7C20,6.4,19.6,6,19,6z M16.5,11.5L13,15l-3.5-3.5l-1,1L12,16l-3.5,3.5l1,1L13,17l3.5,3.5l1-1L14,16l3.5-3.5L16.5,11.5z'/>
+</svg>

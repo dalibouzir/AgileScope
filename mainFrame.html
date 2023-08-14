@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="mainFrame.css">
+
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+  <div class="sidebar">
+    <div class="logo-details">
+        
+        <div class="logo_name">AgileScope</div>
+        <i class='bx bx-menu' id="btn" ></i>
+    </div>
+    <ul class="nav-list">
+      <li>
+          <i class='bx bx-search' ></i>
+         <input type="text" placeholder="Search...">
+         <span class="tooltip">Search</span>
+      </li>
+      <li>
+        <a id="dashboard">
+          <i class='bx bx-grid-alt' id='icon'></i>
+          <span class="links_name"id='icon'  >Dashboard</span>
+        </a>
+         <span class="tooltip" >Dashboard</span>
+      </li>
+      <li>
+       <a href="Profile.html">
+         <i class='bx bx-user' ></i>
+         <span class="links_name">Edit Profile</span>
+       </a>
+       <span class="tooltip">Edit Profile</span>
+     </li>
+     <li>
+       <a href="messages.html">
+         <i class='bx bx-chat' ></i>
+         <span class="links_name">Messages</span>
+       </a>
+       <span class="tooltip" >Messages</span>
+     </li>
+     
+     <li>
+       <a href="Files.html">
+         <i class='bx bx-folder' ></i>
+         <span class="links_name">File Manager</span>
+       </a>
+       <span class="tooltip">Files</span>
+     </li>
+     <li>
+      <a href="Tasks.html">
+        <i class='bx bx-task' ></i>
+        <span class="links_name">Tasks</span>
+      </a>
+      <span class="tooltip">Tasks</span>
+    </li>
+     <li>
+       <a href="Calendar.html">
+         <i class='bx bx-calendar' ></i>
+         <span class="links_name">Calendar</span>
+       </a>
+       <span class="tooltip">Calendar</span>
+     </li>
+     
+
+     <li class="profile">
+         <div class="profile-details">
+           <!--<img src="profile.jpg" alt="profileImg">-->
+           <div class="name_job">
+            <span id="user-email"></span>
+            <span id="job" style="color:rgb(105, 105, 105)"></span>
+            
+            <i class='bx bx-log-out' id="logout"  ></i>
+           </div>
+         </div>
+        
+     </li>
+     
+    </ul>
+  </div>
+  <section class="home-section">
+   <div class="app-container">
+    <div class="app-header">
+      <div class="app-header-left">
+        
+        <p class="app-name">AgileScope</p>
+        
+      </div>
+      <div class="app-header-right">
+        <button class="mode-switch" title="Switch Theme">
+          <svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
+            <defs></defs>
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+          </svg>
+        </button>
+        <i class='bx bx-log-out' id="log" style="font-size:25px"></i>
+        <div id="myModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <labe id="text2" for="task">Add a Team Name : </label>
+      <input id="taskinp2" type="text" class="chat-input" autocomplete="off" placeholder="Enter Team Name here">
+         
+            </br>
+            <labe id="text2" for="task">Add Devs To The Team : </label>
+      <!-- <input id="taskinp" type="text" class="chat-input" autocomplete="off" placeholder="Enter their E-mails here"> -->
+  <input id="taskinp" class="chat-input" autocomplete="off" placeholder="Enter their E-mails here"  type="text">
+  <button id="addButton">Add</button>
+            </br>
+      <input id="Save" onclick="AddGroup()" type="submit" value="Add">    
+    </div>
+        </div>
+        <button id="btn2" class="add-btn" title="Add New Project">
+          <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" /></svg>
+        </button>
+      
+        <!----      Profile --->
+        <div class="profile-btn" style="
+        width: 180px;">
+          <img src="https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile-thumbnail.png" />
+          <span id="user"></span>
+        </div>
+      </div>
+      <button class="messages-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
+      </button>
+    </div>
+    <div class="app-content">
+      
+      <div class="projects-section">
+        <div class="projects-section-header">
+          <p>Projects</p>
+         
+          <span class="time" id="date" ></span>
+
+        </div>
+        <div class="projects-section-line">
+          <div class="projects-status">
+            <div class="item-status">
+              <span id="num_Tasks_nonDone" class="status-number"></span>
+              <span class="status-type">Tasks In Progress</span>
+            </div>
+            <div class="item-status">
+              <span id="num_files" class="status-number"></span>
+              <span class="status-type">Files Uploaded</span>
+            </div>
+            <div class="item-status">
+              <span id="num_Total" class="status-number"></span>
+              <span class="status-type">Total Tasks</span>
+            </div>
+          </div>
+          <div class="view-actions">
+            <button class="view-btn list-view" title="List View">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list">
+                <line x1="8" y1="6" x2="21" y2="6" />
+                <line x1="8" y1="12" x2="21" y2="12" />
+                <line x1="8" y1="18" x2="21" y2="18" />
+                <line x1="3" y1="6" x2="3.01" y2="6" />
+                <line x1="3" y1="12" x2="3.01" y2="12" />
+                <line x1="3" y1="18" x2="3.01" y2="18" /></svg>
+            </button>
+            <button class="view-btn grid-view active" title="Grid View">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid">
+                <rect x="3" y="3" width="7" height="7" />
+                <rect x="14" y="3" width="7" height="7" />
+                <rect x="14" y="14" width="7" height="7" />
+                <rect x="3" y="14" width="7" height="7" /></svg>
+            </button>
+          </div>
+        </div>
+    <div class="project-boxes jsGridView" id="Tasks" style="overflow:scroll; height:100%;">
+      </div>
+  </div>
+  <div class="messages-section">
+    <button class="messages-close">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="15" y1="9" x2="9" y2="15" />
+        <line x1="9" y1="9" x2="15" y2="15" /></svg>
+    </button>
+    <div class="projects-section-header">
+      <p>Devs Profiles</p>
+    </div>
+    <div class="messages" id="Devs" style="overflow:scroll; height:100%;">
+      
+    </div>
+  </div>
+  </div>
+  </div>
+  </section>
+
+
+
+  <script src= "FireBase.js"></script>
+  <script src= "dashboard.js"></script>
+
+  <script >
+  let sidebar = document.querySelector(".sidebar");
+  let closeBtn = document.querySelector("#btn");
+  let searchBtn = document.querySelector(".bx-search");
+
+  closeBtn.addEventListener("click", ()=>{
+    sidebar.classList.toggle("open");
+    menuBtnChange();
+  });
+
+  searchBtn.addEventListener("click", ()=>{ 
+    sidebar.classList.toggle("open");
+    menuBtnChange(); 
+  });
+
+
+  function menuBtnChange() {
+   if(sidebar.classList.contains("open")){
+     closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+   }else {
+     closeBtn.classList.replace("bx-menu-alt-right","bx-menu");
+   }
+  }
+
+      
+ 
+  firebase.initializeApp(firebaseConfig);
+  var auth = firebase.auth();  
+
+
+
+
+
+var ls=[];
+auth.onAuthStateChanged((user) => {
+	if (user) {
+
+
+var usersRef = firebase.database().ref('profiles');
+var nameRef = usersRef.child('name');
+usersRef.on('value', (snapshot) => {
+  snapshot.forEach((child) => {
+    var usee="";
+    ls.push(child.val());   
+  }); 
+
+  for (let i = 0; i < ls.length; i++) {
+  
+    if(ls[i]['user']==user.email)
+    document.getElementById("user-email").innerHTML=ls[i]['name'];
+    document.getElementById("job").innerHTML=ls[i]['position'];
+    document.getElementById("user").innerHTML=ls[i]['name'];
+    
+  }
+});
+} else {
+		console.log("error");
+	}
+  });
+
+    
+function createSequence(text) {
+  let sequence = "";
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === "@") {
+      break;
+    }
+    sequence += text[i];
+  }
+  return sequence;
+}
+
+
+document.getElementById("logout").addEventListener('click',(e)=>{
+  firebase.auth().signOut().then(() => {
+              //
+              alert("signout succcesfull ");
+              window.location.assign("index.html");
+               }).catch((error) => {
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  alert(errorMessage);
+               });
+           });
+           document.getElementById("log").addEventListener('click',(e)=>{
+            firebase.auth().signOut().then(() => {
+              //
+              alert("signout succcesfull ");
+              window.location.assign("index.html");
+               }).catch((error) => {
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  alert(errorMessage);
+               });
+           });
+////////////////Project Progression//////// 
+var count=0;
+var numElements=0;
+var numElements3=0;
+var numElements2=0;
+firebase.database().ref("Uploader").on("child_added", function (snapshot) {
+      numElements +=1 ;
+      
+      document.getElementById("num_files").innerHTML=numElements;
+})
+
+firebase.database().ref("task").on("child_added", function (snapshot) {
+      numElements2 += 1;
+
+      document.getElementById("num_Total").innerHTML=numElements2;
+})
+
+firebase.database().ref("task").on("child_added", function (snapshot) {
+  if(snapshot.val().task_prio!='Done'){
+
+
+  numElements3 +=1;
+}
+    
+  
+      document.getElementById("num_Tasks_nonDone").innerHTML=numElements3;
+      })
+
+
+//////////////////////////////////////////
+
+var devs=[];
+var myArray = [];
+
+    const addButton = document.getElementById("addButton");
+    const inputField = document.getElementById("taskinp");
+    const arrayList = document.getElementById("arrayList");
+
+    addButton.addEventListener("click", function() {
+      const newItem = inputField.value;
+      myArray.push(newItem);
+      inputField.value = "";
+    });
+
+function AddGroup(){
+  var email_input = document.getElementById("taskinp").value;
+  var group = document.getElementById("taskinp2").value;
+for (let i = 0; i < ls.length; i++) {
+      if(ls[i]["user"]==email_input&&!(email_input == devs[i])){
+        devs.push(email_input);
+    firebase.database().ref("Groupe").push().set({
+      "group_Name" :group,
+			"groupe_Devs": myArray
+			})
+      myArray = [];
+      
+      break;}
+    
+     
+  alert(console.log("User not Found Please Try Again"));
+}
+}
+
+  auth.onAuthStateChanged((user) => {
+	if (user) {
+// var ls=[];
+
+var usersRef = firebase.database().ref('profiles');
+var nameRef = usersRef.child('name');
+usersRef.on('value', (snapshot) => {
+  snapshot.forEach((child) => {
+    var usee="";
+   
+  }); 
+
+  for (let i = 0; i < ls.length; i++) {
+
+      if(ls[i]['user']==user.email){
+////////////////DEV ProFiles/://///////
+var currentDate = new Date();
+firebase.database().ref("profiles").on("child_added", function (snapshot) {
+  var html="";
+   if(snapshot.val().position!="Client"){
+      html +=`
+      <div class="message-box">
+        <img src="https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile-thumbnail.png" alt="profile image">
+        <div class="message-content">
+          <div class="message-header">
+            <div class="name">${snapshot.val().name} ${snapshot.val().position}</div>
+            <div class="star-checkbox">
+              <input type="checkbox" id="star-1">
+              <label for="star-1">
+
+                
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-star">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>
+              </label>
+            </div>
+          </div>
+          <p class="message-line">
+            E-mail: ${snapshot.val().user}  Age:${snapshot.val().age}
+          </p>
+          <p class="message-line time">
+            ${currentDate.toISOString()}
+          </p>
+        </div>
+      </div>`; }
+      
+     document.getElementById("Devs").innerHTML += html;   
+	})
+  
+///////////////////////TASKS PROGRESSS/////////////////////
+
+firebase.database().ref("task").on("child_added", function (snapshot) {
+  var html="";
+ 
+          html +=`
+      <div class="project-box-wrapper">
+        `
+        if(snapshot.val().position=="developer"){
+          html +=`
+        <div class="project-box" style="background-color: #e9e7fd;">`}
+
+          if(snapshot.val().position=="projectManager"){
+          html +=`
+        <div class="project-box" style="background-color:#fffacd ;">`}
+
+          if(snapshot.val().position=="uiDesigner"){
+          html +=`
+        <div class="project-box" style="background-color: #d8bfd8;">`}
+
+          if(snapshot.val().position=="dataManager"){
+          html +=`
+        <div class="project-box" style="background-color: #e0ffff;">`}
+
+
+
+          html +=`
+          <div class="project-box-header">
+            <span>${snapshot.val().date}</span>
+            <div class="more-wrapper">
+              <button class="project-btn-more">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical">
+                  <circle cx="12" cy="12" r="1" />
+                  <circle cx="12" cy="5" r="1" />
+                  <circle cx="12" cy="19" r="1" /></svg>
+              </button>
+            </div>
+          </div>
+          <div class="project-box-content-header">
+            <p class="box-content-header">${snapshot.val().position}</p>
+            <p class="box-content-subheader">${snapshot.val().message}</p>
+          </div>
+          <div class="box-progress-wrapper">
+            <p class="box-progress-header">Progress</p>
+            ${snapshot.val().task_prio}
+          </div>
+          <div class="project-box-footer">
+            <div class="participants">
+              ${snapshot.val().sender}
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      `; 
+      
+     document.getElementById("Tasks").innerHTML += html;   
+	})
+
+
+
+///////////////////////////projectManager Access///////////:
+  if(ls[i]['position']=="projectManager"){
+
+      var modal = document.getElementById("myModal");
+
+      var btn = document.getElementById("btn2");
+      var span = document.getElementsByClassName("close")[0];
+      btn.onclick = function() {
+        modal.style.display = "block";
+
+      }
+      span.onclick = function() {
+        modal.style.display = "none";
+      }
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+
+      }
+
+
+
+
+  }else{
+    var btn = document.getElementById("btn2");
+    btn.onclick = function() {
+    alert("Not accessible  \n\nYou need to be a Project Manager To access it");
+
+  }
+    }
+
+  }
+    
+    
+  }
+  
+
+
+});
+} else {
+		console.log("error");
+	}
+  });
+
+
+
+
+
+
+/////////////TIME////////////////
+const dateSpan = document.getElementById("date");
+
+const months = ["January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November", "December"];
+
+const today = new Date();
+const month = months[today.getMonth()];
+const day = today.getDate();
+
+dateSpan.textContent = month + " " + day;
+
+
+
+  
+  </script>
+</body>
+</html>

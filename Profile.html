@@ -1,0 +1,196 @@
+<html>
+    <header>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+        <link rel="stylesheet" href="Profile.css">
+    </header>
+
+<body>
+    <div class="wrapper">
+      <div class="left">
+        
+          <h2>Full name:</h2> 
+          <span> </span>
+          <span hidden="hidden" id="emailtesst"  ></span>
+        
+      </div>
+      <div class="right">
+        <h2>Profile Settings</h2>
+        
+        <img class="avatar" src="http://res.cloudinary.com/dikpupfzu/image/upload/v1525474876/profile_avatar.png" alt="">
+        <h3>Edit Picture</h3>
+        <div id="profiles" class="form">
+          <form
+                action="index.html"
+                method="post">
+            <div class="field">
+              <label for="">Full Name</label>
+              <input id="Name" class="full_name"
+                     type="text"
+                     name="full-name"
+                     value="" />
+            </div>
+            <div class="field">
+              <label for="">Email</label>
+            </br>
+          </br>
+              <span id="email" class="full_name"
+                     type="text"
+                     name="full-name" ></span>
+            </div>
+            <div class="field">
+              <label for="">Age</label>
+              <input class="full_name" type="number" id="age" name="age" min="0" max="100" required>
+              
+            </div>
+
+            <div class="field">
+              <label for="jobPosition">Job Position:</label>
+            </br>
+              <select id="jobPosition" name="jobPosition">
+                <option value="Client">Client</option>
+                <option value="projectManager">Project Manager</option>
+                <option value="developer">Developer</option>
+                <option value="uiDesigner">UI Designer</option>
+                <option value="dataManager">Data Manager</option>
+              </select>
+              </div>
+          </form>
+        </div>
+        <div class="bottom">
+          <a href="#"><button id="submit" onclick="Add()" class="button_left" type="submit" name="button">Save Changes</button></a>
+          <a href="#"><button class="button_right" onclick="location.reload();" type="cancel" name="button">Cancel</button></a>
+        </div>
+      </div>
+    </div>
+    <script src= "FireBase.js"></script>
+    <script type="module">
+     
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"   
+    import { getDatabase , set, ref } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
+    import { getAuth,signInWithPopup, GoogleAuthProvider , signInWithEmailAndPassword ,signOut} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+    
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+    var auth = firebase.auth();
+    var databse =firebase.database();
+
+    var db = firebase.firestore();
+   
+
+    var usee="";
+    
+  var sub = document.getElementById('sub');
+    
+
+  auth.onAuthStateChanged((user) => {
+	if (user) {
+    usee = user.email;
+    document.getElementById('email').innerHTML=usee;
+    document.getElementById('emailtesst').innerHTML=usee;
+
+  } else {
+		console.log("erooorrr");
+	}
+  })
+
+  
+
+    </script>
+    <script >
+       var ls=[];
+      	
+        function Add(){
+           
+       var usee="";
+        usee =document.getElementById('email').innerHTML;
+  var Age = document.getElementById("age").value;
+  var Name = document.getElementById("Name").value;
+  var Pos = document.getElementById("jobPosition").value;
+
+
+    firebase.database().ref("profiles").push().set({
+			"age" : Age,
+			"name" : Name,
+		  "user" : usee,
+      "position" : Pos
+			})
+      
+      firebase.database().ref("profiles").on("child_added", function (snapshot) {
+
+       
+        
+        ls.push(snapshot.key);
+        
+        
+      })
+      firebase.database().ref("profiles").on("child_added", function (snapshot) {
+    var html = "";
+    html += "<div id='message-" + snapshot.key + "'>";
+			var key= ls[ls.lenght-1];
+      for (let i = 1; i < ls.length; i++) {
+      if(ls[i]!=key&&document.getElementById("emailtesst").innerHTML==snapshot.val().user){
+        if(ls[i]==ls[ls.length-1]){
+         firebase.database().ref("profiles").child(ls[i]).remove();
+        ls=[];
+        
+        }
+      }
+
+}
+
+		
+       
+if(document.getElementById("email").innerHTML==snapshot.val().user){
+      
+     
+      
+      
+      html+=`
+      <form
+                action="index.html"
+                method="post">
+            <div class="field">
+              <label for="">Full Name</label>
+            </br></br>
+            ${snapshot.val().name}
+            </div>
+            <div class="field">
+              <label for="">Email</label>
+            </br>
+          </br>
+              ${snapshot.val().user}
+            </div>
+            <div class="field">
+              <label for="">Age:</label>
+              </br>
+            </br>
+              ${snapshot.val().age}
+            </div>
+
+            <div class="field">
+              <label for="jobPosition">Job Position:</label>
+            </br></br>
+            ${snapshot.val().position}
+              </div>
+          </form>
+          </div>
+      `
+   }
+      document.getElementById("profiles").innerHTML = html;
+    }) 
+    setTimeout(function() {
+      window.location.href="MainFrame.html";
+}, 3000);
+
+   
+ 
+	 }
+   
+    </script>
+</body>
+</html>

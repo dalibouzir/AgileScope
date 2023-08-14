@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <link rel="stylesheet" href="messages.css">
+    <link rel="stylesheet" href="messages.js"  type="text/js" />
+  </head>
+<body>
+
+<div class="app-container">
+    <div class="app-left">
+      <div class="app-left-header">
+        <div class="app-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <defs/>
+            <path class="path-1" fill="#3eb798" d="M448 193.108h-32v80c0 44.176-35.824 80-80 80H192v32c0 35.344 28.656 64 64 64h96l69.76 58.08c6.784 5.648 16.88 4.736 22.528-2.048A16.035 16.035 0 00448 494.868v-45.76c35.344 0 64-28.656 64-64v-128c0-35.344-28.656-64-64-64z" opacity=".4"/>
+            <path class="path-2" fill="#3eb798" d="M320 1.108H64c-35.344 0-64 28.656-64 64v192c0 35.344 28.656 64 64 64v61.28c0 8.832 7.168 16 16 16a16 16 0 0010.4-3.84l85.6-73.44h144c35.344 0 64-28.656 64-64v-192c0-35.344-28.656-64-64-64zm-201.44 182.56a22.555 22.555 0 01-4.8 4 35.515 35.515 0 01-5.44 3.04 42.555 42.555 0 01-6.08 1.76 28.204 28.204 0 01-6.24.64c-17.68 0-32-14.32-32-32-.336-17.664 13.712-32.272 31.376-32.608 2.304-.048 4.608.16 6.864.608a42.555 42.555 0 016.08 1.76c1.936.8 3.76 1.808 5.44 3.04a27.78 27.78 0 014.8 3.84 32.028 32.028 0 019.44 23.36 31.935 31.935 0 01-9.44 22.56zm96 0a31.935 31.935 0 01-22.56 9.44c-2.08.24-4.16.24-6.24 0a42.555 42.555 0 01-6.08-1.76 35.515 35.515 0 01-5.44-3.04 29.053 29.053 0 01-4.96-4 32.006 32.006 0 01-9.28-23.2 27.13 27.13 0 010-6.24 42.555 42.555 0 011.76-6.08c.8-1.936 1.808-3.76 3.04-5.44a37.305 37.305 0 013.84-4.96 37.305 37.305 0 014.96-3.84 25.881 25.881 0 015.44-3.04 42.017 42.017 0 016.72-2.4c17.328-3.456 34.176 7.808 37.632 25.136.448 2.256.656 4.56.608 6.864 0 8.448-3.328 16.56-9.28 22.56h-.16zm96 0a22.555 22.555 0 01-4.8 4 35.515 35.515 0 01-5.44 3.04 42.555 42.555 0 01-6.08 1.76 28.204 28.204 0 01-6.24.64c-17.68 0-32-14.32-32-32-.336-17.664 13.712-32.272 31.376-32.608 2.304-.048 4.608.16 6.864.608a42.555 42.555 0 016.08 1.76c1.936.8 3.76 1.808 5.44 3.04a27.78 27.78 0 014.8 3.84 32.028 32.028 0 019.44 23.36 31.935 31.935 0 01-9.44 22.56z"/>
+          </svg>
+        </div>
+        <h1>QuickChat</h1>
+      </div>
+      <div class="app-profile-box">
+        
+        <div class="app-profile-box-name">
+          <span id="namee" ></span>
+          <button class="app-setting">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-settings" viewBox="0 0 24 24">
+              <defs/>
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+            </svg>
+          </button>
+        </div>
+        <span id="position" class="app-profile-box-title"></span>
+        <div class="switch-status">
+          <input type="checkbox" name="switchStatus" id="switchStatus" checked>
+          <label class="label-toggle" for="switchStatus"></label>
+          <span class="toggle-text toggle-online">Online</span>
+          <span class="toggle-text toggle-offline">Offline</span>
+        </div>
+      </div>
+      <div class="chat-list-wrapper">
+        <div class="chat-list-header">Active Conversations <span class="c-number">1</span>
+          <svg class="list-header-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="feather feather-chevron-up" viewBox="0 0 24 24">
+            <defs/>
+            <path d="M18 15l-6-6-6 6"/>
+          </svg>
+        </div>
+        <ul class="chat-list active">
+          <li class="chat-list-item active">
+            <img src="open.png" alt="chat">
+            <span class="chat-list-name">Groupe Chat</span>
+          </li>
+         
+        </ul>
+      </div>
+      
+    </div>
+    <div class="app-main" style="overflow:scroll; height:100%;">
+        <div id="messages">
+      <div class="chat-wrapper">
+        <div class="message-wrapper reverse">
+            <img class="message-pp" src="https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile-thumbnail.png" alt="profile-pic">
+            <div class="message-box-wrapper">
+                <div class="message-box">
+             hello
+             </div>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+      <div class="chat-input-wrapper">
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-paperclip" viewBox="0 0 24 24">
+            <defs/>
+            <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
+          </svg>
+        </button>
+        
+        <div class="input-wrapper">
+          <input id="message" type="text" class="chat-input" autocomplete="off" placeholder="Enter your message here">
+          
+        </div>
+        <input  type="submit" onclick="sendMessage()" class="chat-send-btn"></input>
+      </div>
+    </div>
+    <div class="app-right">
+      <div class="app-profile-box">
+        <img src="https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile-thumbnail.png" alt="profile">
+        <p class="app-profile-box-title name"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span id="user-email" > </span></p>
+        <p class="app-profile-box-title mail"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span id="useremail" > </span></p>
+        <button class="archive-btn">Archive<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-archive" viewBox="0 0 24 24">
+    <defs/>
+    <path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/>
+  </svg></button>
+      </div>
+      <div class="app-activity-box">
+        <div class="activity-info-boxes">
+          <div class="activity-info-box time">
+            <div class="info-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-clock" viewBox="0 0 24 24">
+                <defs/>
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <div class="info-text-wrapper">
+              <span id="time" class="info-text-upper"></span>
+              <span class="info-text-bottom">Time</span>
+            </div>
+          </div>
+          <div class="activity-info-box atendee">
+            <div class="info-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-users" viewBox="0 0 24 24">
+                <defs/>
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+              </svg>
+            </div>
+            <div class="info-text-wrapper">
+              <span id="dev_num" class="info-text-upper"></span>
+              <span class="info-text-bottom">Atendeed</span>
+            </div>
+          </div>
+          <div class="activity-info-box meeting">
+            <div class="info-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-calendar" viewBox="0 0 24 24">
+                <defs/>
+                <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                <path d="M16 2v4M8 2v4M3 10h18"/>
+              </svg>
+            </div>
+            <div class="info-text-wrapper">
+              <span id="meeting_num" class="info-text-upper"></span>
+              <span class="info-text-bottom">Meetings</span>
+            </div>
+          </div>
+          <div class="activity-info-box reject">
+            <div class="info-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-x-square" viewBox="0 0 24 24">
+                <defs/>
+                <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+                <path d="M9 9l6 6M15 9l-6 6"/>
+              </svg>
+            </div>
+            <div class="info-text-wrapper">
+              <span class="info-text-upper">12</span>
+              <span class="info-text-bottom">Rejected</span>
+            </div>
+          </div>
+        </div>
+        <div class="activity-info-header">
+          <span class=
+  "info-header-bold">Current Week</span>
+           <span class=
+  "info-header-light">Activity</span>
+        </div>
+        <div class="activity-days-wrapper">
+          <div class="day">
+            <div class="chart"></div>
+            <span>MON</span>
+          </div>
+          <div class="day">
+            <div class="chart"></div>
+            <span>TUE</span>
+          </div>
+          <div class="day ">
+            <div class="chart"></div>
+            <span>WED</span>
+          </div>
+          <div class="day">
+            <div class="chart"></div>
+            <span>THU</span>
+          </div>
+          <div class="day">
+            <div class="chart"></div>
+            <span>FRI</span>
+          </div>
+          <div class="day">
+            <div class="chart"></div>
+            <span>SAT</span>
+          </div>
+          <div class="day">
+            <div class="chart"></div>
+            <span>SUN</span>
+          </div>
+        </div>
+      </div>
+      <div class="app-right-bottom">
+        <div class="app-theme-selector">
+        <button class="theme-color indigo" data-color="indigo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" title="Indigo">
+            <defs/>
+            <path fill="#fff" d="M451.648.356c-25.777 2.712-56.79 19.872-94.811 52.46-68.786 58.958-149.927 160.756-202.185 234-38.158-5.951-78.375 10.368-102.187 40.133C8.758 381.584 45.347 430.34 4.12 473.811c-7.179 7.569-4.618 20.005 4.98 24.114 67.447 28.876 153.664 10.879 194.109-31.768 24.718-26.063 38.167-64.54 31.411-100.762 72.281-55.462 172.147-140.956 228.7-211.885 31.316-39.277 47.208-70.872 48.584-96.59C513.759 22.273 486.87-3.346 451.648.356zM181.443 445.511c-27.362 28.85-87.899 45.654-141.767 31.287 30.12-48.043 4.229-91.124 36.214-131.106 26.246-32.808 79.034-41.993 109.709-11.317 35.839 35.843 19.145 86.566-4.156 111.136zm3.07-148.841c7.354-10.167 18.887-25.865 33.29-44.659l49.22 49.224c-18.125 14.906-33.263 26.86-43.077 34.494-8.842-15.879-22.526-30.108-39.433-39.059zM481.948 55.316c-3.368 63.004-143.842 186.021-191.797 226.621l-53.785-53.79c39.458-49.96 155.261-191.312 218.422-197.954 16.851-1.775 28.03 8.858 27.16 25.123z"/>
+          </svg>
+        </button>
+        <button class="theme-color pink" data-color="pink" title="Pink">
+          <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" >
+            <defs/>
+            <path fill="#fff" d="M451.648.356c-25.777 2.712-56.79 19.872-94.811 52.46-68.786 58.958-149.927 160.756-202.185 234-38.158-5.951-78.375 10.368-102.187 40.133C8.758 381.584 45.347 430.34 4.12 473.811c-7.179 7.569-4.618 20.005 4.98 24.114 67.447 28.876 153.664 10.879 194.109-31.768 24.718-26.063 38.167-64.54 31.411-100.762 72.281-55.462 172.147-140.956 228.7-211.885 31.316-39.277 47.208-70.872 48.584-96.59C513.759 22.273 486.87-3.346 451.648.356zM181.443 445.511c-27.362 28.85-87.899 45.654-141.767 31.287 30.12-48.043 4.229-91.124 36.214-131.106 26.246-32.808 79.034-41.993 109.709-11.317 35.839 35.843 19.145 86.566-4.156 111.136zm3.07-148.841c7.354-10.167 18.887-25.865 33.29-44.659l49.22 49.224c-18.125 14.906-33.263 26.86-43.077 34.494-8.842-15.879-22.526-30.108-39.433-39.059zM481.948 55.316c-3.368 63.004-143.842 186.021-191.797 226.621l-53.785-53.79c39.458-49.96 155.261-191.312 218.422-197.954 16.851-1.775 28.03 8.858 27.16 25.123z"/>
+          </svg>
+        </button>
+        <button class="theme-color navy-dark active" data-color="navy-dark" title="Navy Dark">
+          <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+            <defs/>
+            <path fill="#fff" d="M451.648.356c-25.777 2.712-56.79 19.872-94.811 52.46-68.786 58.958-149.927 160.756-202.185 234-38.158-5.951-78.375 10.368-102.187 40.133C8.758 381.584 45.347 430.34 4.12 473.811c-7.179 7.569-4.618 20.005 4.98 24.114 67.447 28.876 153.664 10.879 194.109-31.768 24.718-26.063 38.167-64.54 31.411-100.762 72.281-55.462 172.147-140.956 228.7-211.885 31.316-39.277 47.208-70.872 48.584-96.59C513.759 22.273 486.87-3.346 451.648.356zM181.443 445.511c-27.362 28.85-87.899 45.654-141.767 31.287 30.12-48.043 4.229-91.124 36.214-131.106 26.246-32.808 79.034-41.993 109.709-11.317 35.839 35.843 19.145 86.566-4.156 111.136zm3.07-148.841c7.354-10.167 18.887-25.865 33.29-44.659l49.22 49.224c-18.125 14.906-33.263 26.86-43.077 34.494-8.842-15.879-22.526-30.108-39.433-39.059zM481.948 55.316c-3.368 63.004-143.842 186.021-191.797 226.621l-53.785-53.79c39.458-49.96 155.261-191.312 218.422-197.954 16.851-1.775 28.03 8.858 27.16 25.123z"/>
+          </svg>
+        </button>
+        <button class="theme-color dark" data-color="dark" title="Dark">
+          <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+            <defs/>
+            <path fill="currentColor" d="M451.648.356c-25.777 2.712-56.79 19.872-94.811 52.46-68.786 58.958-149.927 160.756-202.185 234-38.158-5.951-78.375 10.368-102.187 40.133C8.758 381.584 45.347 430.34 4.12 473.811c-7.179 7.569-4.618 20.005 4.98 24.114 67.447 28.876 153.664 10.879 194.109-31.768 24.718-26.063 38.167-64.54 31.411-100.762 72.281-55.462 172.147-140.956 228.7-211.885 31.316-39.277 47.208-70.872 48.584-96.59C513.759 22.273 486.87-3.346 451.648.356zM181.443 445.511c-27.362 28.85-87.899 45.654-141.767 31.287 30.12-48.043 4.229-91.124 36.214-131.106 26.246-32.808 79.034-41.993 109.709-11.317 35.839 35.843 19.145 86.566-4.156 111.136zm3.07-148.841c7.354-10.167 18.887-25.865 33.29-44.659l49.22 49.224c-18.125 14.906-33.263 26.86-43.077 34.494-8.842-15.879-22.526-30.108-39.433-39.059zM481.948 55.316c-3.368 63.004-143.842 186.021-191.797 226.621l-53.785-53.79c39.458-49.96 155.261-191.312 218.422-197.954 16.851-1.775 28.03 8.858 27.16 25.123z"/>
+          </svg>
+        </button>
+      </div>
+      </div>
+    </div>
+    <div class="app-right-bottom">
+        <div class="app-theme-selector">
+        <button class="theme-color indigo" data-color="indigo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" title="Indigo">
+            <defs/>
+            <path fill="#fff" d="M451.648.356c-25.777 2.712-56.79 19.872-94.811 52.46-68.786 58.958-149.927 160.756-202.185 234-38.158-5.951-78.375 10.368-102.187 40.133C8.758 381.584 45.347 430.34 4.12 473.811c-7.179 7.569-4.618 20.005 4.98 24.114 67.447 28.876 153.664 10.879 194.109-31.768 24.718-26.063 38.167-64.54 31.411-100.762 72.281-55.462 172.147-140.956 228.7-211.885 31.316-39.277 47.208-70.872 48.584-96.59C513.759 22.273 486.87-3.346 451.648.356zM181.443 445.511c-27.362 28.85-87.899 45.654-141.767 31.287 30.12-48.043 4.229-91.124 36.214-131.106 26.246-32.808 79.034-41.993 109.709-11.317 35.839 35.843 19.145 86.566-4.156 111.136zm3.07-148.841c7.354-10.167 18.887-25.865 33.29-44.659l49.22 49.224c-18.125 14.906-33.263 26.86-43.077 34.494-8.842-15.879-22.526-30.108-39.433-39.059zM481.948 55.316c-3.368 63.004-143.842 186.021-191.797 226.621l-53.785-53.79c39.458-49.96 155.261-191.312 218.422-197.954 16.851-1.775 28.03 8.858 27.16 25.123z"/>
+          </svg>
+        </button>
+        <button class="theme-color pink" data-color="pink" title="Pink">
+          <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" >
+            <defs/>
+            <path fill="#fff" d="M451.648.356c-25.777 2.712-56.79 19.872-94.811 52.46-68.786 58.958-149.927 160.756-202.185 234-38.158-5.951-78.375 10.368-102.187 40.133C8.758 381.584 45.347 430.34 4.12 473.811c-7.179 7.569-4.618 20.005 4.98 24.114 67.447 28.876 153.664 10.879 194.109-31.768 24.718-26.063 38.167-64.54 31.411-100.762 72.281-55.462 172.147-140.956 228.7-211.885 31.316-39.277 47.208-70.872 48.584-96.59C513.759 22.273 486.87-3.346 451.648.356zM181.443 445.511c-27.362 28.85-87.899 45.654-141.767 31.287 30.12-48.043 4.229-91.124 36.214-131.106 26.246-32.808 79.034-41.993 109.709-11.317 35.839 35.843 19.145 86.566-4.156 111.136zm3.07-148.841c7.354-10.167 18.887-25.865 33.29-44.659l49.22 49.224c-18.125 14.906-33.263 26.86-43.077 34.494-8.842-15.879-22.526-30.108-39.433-39.059zM481.948 55.316c-3.368 63.004-143.842 186.021-191.797 226.621l-53.785-53.79c39.458-49.96 155.261-191.312 218.422-197.954 16.851-1.775 28.03 8.858 27.16 25.123z"/>
+          </svg>
+        </button>
+        <button class="theme-color navy-dark active" data-color="navy-dark" title="Navy Dark">
+          <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+            <defs/>
+            <path fill="#fff" d="M451.648.356c-25.777 2.712-56.79 19.872-94.811 52.46-68.786 58.958-149.927 160.756-202.185 234-38.158-5.951-78.375 10.368-102.187 40.133C8.758 381.584 45.347 430.34 4.12 473.811c-7.179 7.569-4.618 20.005 4.98 24.114 67.447 28.876 153.664 10.879 194.109-31.768 24.718-26.063 38.167-64.54 31.411-100.762 72.281-55.462 172.147-140.956 228.7-211.885 31.316-39.277 47.208-70.872 48.584-96.59C513.759 22.273 486.87-3.346 451.648.356zM181.443 445.511c-27.362 28.85-87.899 45.654-141.767 31.287 30.12-48.043 4.229-91.124 36.214-131.106 26.246-32.808 79.034-41.993 109.709-11.317 35.839 35.843 19.145 86.566-4.156 111.136zm3.07-148.841c7.354-10.167 18.887-25.865 33.29-44.659l49.22 49.224c-18.125 14.906-33.263 26.86-43.077 34.494-8.842-15.879-22.526-30.108-39.433-39.059zM481.948 55.316c-3.368 63.004-143.842 186.021-191.797 226.621l-53.785-53.79c39.458-49.96 155.261-191.312 218.422-197.954 16.851-1.775 28.03 8.858 27.16 25.123z"/>
+          </svg>
+        </button>
+        <button class="theme-color dark" data-color="dark" title="Dark">
+          <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+            <defs/>
+            <path fill="currentColor" d="M451.648.356c-25.777 2.712-56.79 19.872-94.811 52.46-68.786 58.958-149.927 160.756-202.185 234-38.158-5.951-78.375 10.368-102.187 40.133C8.758 381.584 45.347 430.34 4.12 473.811c-7.179 7.569-4.618 20.005 4.98 24.114 67.447 28.876 153.664 10.879 194.109-31.768 24.718-26.063 38.167-64.54 31.411-100.762 72.281-55.462 172.147-140.956 228.7-211.885 31.316-39.277 47.208-70.872 48.584-96.59C513.759 22.273 486.87-3.346 451.648.356zM181.443 445.511c-27.362 28.85-87.899 45.654-141.767 31.287 30.12-48.043 4.229-91.124 36.214-131.106 26.246-32.808 79.034-41.993 109.709-11.317 35.839 35.843 19.145 86.566-4.156 111.136zm3.07-148.841c7.354-10.167 18.887-25.865 33.29-44.659l49.22 49.224c-18.125 14.906-33.263 26.86-43.077 34.494-8.842-15.879-22.526-30.108-39.433-39.059zM481.948 55.316c-3.368 63.004-143.842 186.021-191.797 226.621l-53.785-53.79c39.458-49.96 155.261-191.312 218.422-197.954 16.851-1.775 28.03 8.858 27.16 25.123z"/>
+          </svg>
+        </button>
+      </div>
+      </div>
+  </div>
+
+  <script src="messages.js"></script>
+ 
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
+
+<!-- include firebase database -->
+<script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-auth.js"></script>
+<script src= "FireBase.js"></script>
+<script>
+	// Your web app's Firebase configuration
+   
+
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+    var auth = firebase.auth();
+    	
+ 
+
+function createSequence(text) {
+  let sequence = "";
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === "@") {
+      break;
+    }
+    sequence += text[i];
+  }
+  return sequence;
+}
+var usee="";
+var myName = "";
+auth.onAuthStateChanged((user) => {
+	if (user) {
+		usee=user.email;
+    var name = createSequence(user.email);
+    myName=name;
+    document.getElementById("useremail").innerHTML=user.email;
+    document.getElementById("user-email").innerHTML=name;
+    firebase.database().ref("messages").on("child_added", function (snapshot) {
+      
+        snapshot.val().sender = name;
+    
+      })
+
+	}else {
+		console.log("error");
+	}
+ });
+
+ 
+  
+</script>
+	
+<script>
+	function sendMessage() {
+	
+    if(document.getElementById("message").value==""){
+      alert("please type a message");
+    }else{
+		var message = document.getElementById("message").value;
+    var message = document.getElementById("message").value;
+
+	
+		firebase.database().ref("messages").push().set({
+			"sender": myName,
+      "email" : usee,
+			"message": message
+		});
+    document.getElementById("message").value="";
+ 
+		
+		return false;
+    }
+	}
+
+</script>
+<!-- create a list -->
+
+	
+<script>
+
+
+var Groups=[];
+var dev=[];
+
+var usersRef = firebase.database().ref('Groupe');
+usersRef.on('value', (snapshot) => {
+    snapshot.forEach((child) => {
+    Groups.push(child.val());
+    dev.push(child.val().groupe_Devs);
+   });
+
+	  firebase.database().ref("messages").on("child_added", function (snapshot) {
+        var html = "";
+        for(let i=0;i<dev.length;i++){
+          if(dev[i].includes(usee)&&dev[i].includes(snapshot.val().email)){
+            html += "<div id='message-" + snapshot.key + "'>";
+            if(document.getElementById("user-email").innerHTML!=snapshot.val().sender){
+              html +=`
+                  
+
+                  <div class="message-wrapper ">
+                <img class="message-pp" src="https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile-thumbnail.png" alt="profile-pic">
+                <div class="message-box-wrapper">
+                    <div class="message-box"  + snapshot.key + >
+                      ${snapshot.val().sender+": \n"+snapshot.val().message}
+                  </div>
+                
+                  </div>
+
+
+              `;
+            }else{
+                  html +=`
+                  
+
+                  <div class="message-wrapper reverse">
+                <img class="message-pp" src="https://w7.pngwing.com/pngs/831/88/png-transparent-user-profile-computer-icons-user-interface-mystique-miscellaneous-user-interface-design-smile-thumbnail.png" alt="profile-pic">
+                <div class="message-box-wrapper">
+                
+                  
+                    <div class="message-box"  + 'snapshot.key '+ >
+                      ${snapshot.val().sender+": \n"+snapshot.val().message}
+                  </div>
+                
+                  </div>
+
+              `;
+              
+
+            }
+            
+            if (snapshot.val().sender == document.getElementById("user-email").innerHTML) {
+            html += "<button  data-id='" + snapshot.key + "' class='btn btn-delete' onclick='deleteMessage(this);' ><span class='mdi mdi-delete mdi-24px'></span><span class='mdi mdi-delete-empty mdi-24px'></span> <span>Delete</span></button>";
+            }
+
+          document.getElementById("messages").innerHTML += html;
+          }
+        } 
+  
+	});
+ 
+})
+function deleteMessage(self) {
+
+	var messageId = self.getAttribute("data-id");
+	firebase.database().ref("messages").child(messageId).remove();
+
+}
+
+
+
+
+firebase.database().ref("messages").on("child_removed", function (snapshot) {
+	document.getElementById("message-" + snapshot.key).innerHTML = "This message has been removed ";
+});
+
+//////////////////TIME//////////
+function updateTime() {
+        var now = new Date();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        var timeString = hours + ":" + minutes + ":" + seconds;
+        document.getElementById("time").innerHTML = timeString;
+      }
+setInterval(updateTime, 1000);
+////////////////DATA//////:://///
+
+var ls=[];
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        var usersRef = firebase.database().ref('profiles');
+        var nameRef = usersRef.child('name');
+        usersRef.on('value', (snapshot) => {
+        snapshot.forEach((child) => {
+          
+          var usee="";
+          ls.push(child.val());
+
+        }); 
+
+        for (let i = 0; i < ls.length; i++) {
+          
+          if(ls[i]['user']==user.email) {
+
+            document.getElementById("namee").innerHTML=ls[i]["name"];  
+            document.getElementById("position").innerHTML=ls[i]["position"];  
+          }
+
+        
+        }
+
+
+
+        });
+    } else {
+    console.log("error");
+    }
+  });
+
+let list_Profiles=[];
+var numElements =0;
+var usersRef = firebase.database().ref('profiles');
+usersRef.on('value', (snapshot) => {
+      snapshot.forEach((child) => {
+       
+        list_Profiles.push(child.val());
+        
+        })
+      
+      var name=[];
+      for(let i=0;i<list_Profiles.length;i++){
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+              for(let j=0;j<dev.length;j++){
+                if(dev[j].includes(user.email)&&dev[j].includes(list_Profiles[i]["user"])){
+                  numElements+=1;
+                  document.getElementById("dev_num").innerHTML=numElements;
+                  name.push("</br> user name : "+list_Profiles[i]["name"]+"</br>  Role: "+list_Profiles[i]["position"]+" Age: "+list_Profiles[i]["age"]+"</br>");
+
+
+          }
+        }
+      }
+     })
+      }
+
+      firebase.database().ref("messages").on("child_added", function (snapshot) {
+      var html = "";
+      if(snapshot.val().message==="!Team"){
+
+        html += "<div id='message-" + snapshot.key + "'>";
+              html +=`
+              
+                <div class="message-wrapper ">
+                  <img class="message-pp"  img src="https://cdn-icons-png.flaticon.com/512/1698/1698535.png" alt="chat">
+              <div class="message-box-wrapper">
+                  <div class="message-box"  + snapshot.key + >
+                    ${"Team Bot \n users are :" +name}
+                </div>
+              
+                </div>
+
+            `;
+            
+          }
+          document.getElementById("messages").innerHTML += html;
+      });
+})
+
+
+groups=[];
+  Dev=[];
+
+////////////////
+ var count=0;
+ var numElements=0;
+ var ls2=[];
+
+ var count_Done=0;
+ var count_PM=0;
+ var count_dev=0;
+ var count_dm=0;
+ var count_UiD=0;
+ var count_PM_Sum=0;
+ var count_dev_Sum=0;
+ var count_dm_Sum=0;
+ var count_UiD_Sum=0;
+var c=0;
+var usersRef2 = firebase.database().ref('task');
+
+usersRef2.on('value', (snapshot) => {  
+
+  
+   
+   
+  snapshot.forEach((child) => {
+    ls2.push(child.val());
+   
+     for(let j=0;j<dev.length;j++){
+if(dev[j].includes(child.val().sender)){
+  c+=1;
+
+  numElements = c;
+}}
+     count+=1;
+    
+  }) 
+  for (let i = 0; i < ls2.length; i++) {
+     
+ 
+  for(let j=0;j<dev.length;j++){
+if(dev[j].includes(ls2[i]['sender'])){
+    if(ls2[i]['task_prio']=='Done'){
+      count_Done+=1;
+      if(ls2[i]['position']=="projectManager"){
+        count_PM+=1;
+      }
+      if(ls2[i]['position']=="developer"){
+        count_dev+=1;
+      }
+      if(ls2[i]['position']=="uiDesigner"){
+        count_UiD+=1;
+      }
+      if(ls2[i]['position']=="dataManager"){
+        count_dm+=1;
+      }
+   }
+   if(ls2[i]['position']=="projectManager"){
+        count_PM_Sum+=1;
+      }
+      if(ls2[i]['position']=="developer"){
+        count_dev_Sum+=1;
+      }
+      if(ls2[i]['position']=="uiDesigner"){
+        count_UiD_Sum+=1;
+      }
+      if(ls2[i]['position']=="dataManager"){
+        count_dm_Sum+=1;
+      }
+    
+  }
+  }}
+
+
+
+ 
+
+
+  firebase.database().ref("messages").on("child_added", function (snapshot) {
+		var html = "";
+  if(snapshot.val().message==="!TaskProgress"){
+ 
+    html += "<div id='message-" + snapshot.key + "'>";
+          html +=`
+         
+         
+            
+    
+            <div class="message-wrapper ">
+              <img class="message-pp"  src="https://cdn-icons-png.flaticon.com/128/6231/6231457.png" alt="chat">
+          <div class="message-box-wrapper">
+              <div class="message-box"  + snapshot.key + >
+
+               Task Progress :
+               
+                <div class='tag-progress'>
+        <p>Project Manager <span>${count_PM}/${count_PM_Sum}</span></p>
+        <progress class="progress progress--illustration" max="${count_PM_Sum}" value="${count_PM}"> 7 </progress>
+      </div>
+
+       <div class='tag-progress'>
+        <p>Developer <span>${count_dev}/${count_dev_Sum}</span></p>
+        <progress class="progress progress--Dev" max="${count_dev_Sum}" value="${count_dev}"> 7 </progress>
+      </div>
+
+      <div class='tag-progress'>
+        <p>Ui Designer <span>${count_UiD}/${ count_UiD_Sum}</span></p>
+        <progress class="progress progress--copyright" max="${count_UiD_Sum}" value="${count_UiD}"> 7 </progress>
+      </div>
+
+      <div class='tag-progress'>
+        <p>Data Manager <span>${count_dm}/${count_dm_Sum}</span></p>
+        <progress class="progress progress--design" max="${count_dm_Sum}" value="${count_dm}"> 7 </progress>
+      </div>
+      <div class='tag-progress'>
+        <p>Project Progress <span>${count_Done}/${numElements}</span></p>
+        <progress class="progress progress--Project" max="${numElements}" value="${count_Done}"> 7 </progress>
+      </div>
+           </div>
+         
+           </div>
+    
+    
+        `;
+          
+        }
+
+
+  if(snapshot.val().message==="!commands"){
+
+        html += "<div id='message-" + snapshot.key + "'>";
+        html +=`
+          
+          
+            
+
+            <div class="message-wrapper ">
+              <img class="message-pp"  img src="https://png.pngtree.com/png-vector/20220802/ourmid/pngtree-3d-rpa-cute-robot-cartoon-sky-blue-gradients-color-chatbot-png-image_6093532.png" alt="chat">
+          <div class="message-box-wrapper">
+              <div class="message-box"  + snapshot.key + >
+                1st command !TaskProgress : shows the task progress for each role of the team.
+                </br>
+                2nd command !Team : shows the users names.
+                </div>
+          
+            </div>
+
+
+        `;
+          
+  }
+
+        
+        document.getElementById("messages").innerHTML += html;
+	});
+})
+
+var usersRef = firebase.database().ref('Meetings');
+ var numElements
+usersRef.on('value', (snapshot) => {
+ 
+   numElements = snapshot.numChildren()/2;
+   document.getElementById("meeting_num").innerHTML=numElements;
+   })
+
+  
+  
+</script>
+
+
+</body> 

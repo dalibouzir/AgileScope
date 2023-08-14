@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+	<title>File Uploader</title>
+	<link rel="stylesheet" type="text/css" href="Files.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <a href="mainFrame.html">
+    <button id="backButton" ><i class="fa-solid fa-house fa-bounce"></i></button>
+  </a>
+  
+    <span id="user"></span>
+	<h1>File Uploader</h1>
+	<form id="file-upload-form">
+		<label for="file-upload">Choose a file:</label>
+		<input type="file" id="file-upload">
+		<button type="submit">Upload</button>
+	</form>
+    <div id="file-list-container">
+        <h2>Uploaded Files:</h2>
+        <ul id="file-list" style="overflow:scroll; height:100%;"></ul>
+    </div>
+    
+	<!-- <script src="Files.js"></script> -->
+	<script src="FireBase.js"></script>
+    <script type="module">
+      firebase.initializeApp(firebaseConfig);
+  var auth = firebase.auth();  
+    
+
+////////////CREATE A STORGE OF FILES/ /////////
+
+const storage = firebase.storage().ref();
+const database = firebase.database().ref("Uploader");
+
+document.getElementById("file-upload-form").addEventListener("submit", function(e) {
+	e.preventDefault();
+	const file = document.getElementById("file-upload").files[0];
+	const fileName =file.name;
+	const uploadTask = storage.child(fileName).put(file);
+   
+	uploadTask.on("state_changed", function(snapshot) {
+	}, function(error) {
+	
+		
+	}, function() {
+		      auth.onAuthStateChanged((user) => {
+	if (user) {
+ 
+		uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+			const fileData = {
+				name: file.name,
+        uploader:user.email,
+				url: downloadURL
+			};
+			database.push(fileData);
+            
+        })
+        setTimeout(function() {
+    location.reload();
+}, 20000);
+
+   
+        
+        }})
+    
+    })
+        
+    })
+/////////////SHOW FILE UPLOADED./..../////++++++++//////    
+const storageRef = firebase.storage().ref();
+const fileListDiv = document.getElementById("file-list");
+var usersRef = firebase.database().ref('Groupe');
+var Groups=[];
+var dev=[];
+
+usersRef.on('value', (snapshot) => {
+  
+  snapshot.forEach((child) => {
+   
+   Groups.push(child.val());
+ 
+    dev.push(child.val().groupe_Devs);
+    
+  
+  })
+storageRef.listAll().then(function(result) {
+  result.items.forEach(function(itemRef) {
+    itemRef.getDownloadURL().then(function(downloadURL) {
+      
+    
+
+      const link = document.createElement("a");
+      
+      
+      const sp = document.createElement('span');
+      firebase.database().ref("Uploader").on("child_added", function (snapshot) {
+        auth.onAuthStateChanged((user) => {
+	if (user) {
+        for(let j=0;j<dev.length;j++){
+        if(dev[j].includes(user.email)&&dev[j].includes(snapshot.val().uploader)){
+         
+          link.href = downloadURL;
+      link.innerText = itemRef.name;
+          sp.innerHTML= 'Uploaded By <span class="file-name" id="name">'+snapshot.val().uploader+'</span>';
+        }}
+      }})
+      })
+    
+      const space = document.createElement("br");
+      const sapced = document.createElement("br");
+      fileListDiv.appendChild(sp);
+      fileListDiv.appendChild(link);
+      fileListDiv.appendChild(sapced);
+      fileListDiv.appendChild(space);
+
+    
+    });
+  });
+}).catch(function(error) {
+  console.error(error);
+});
+})
+
+
+
+var lst_Files2 = [];
+
+  var usersRef2 = firebase.database().ref('Uploader');
+usersRef2.on('value', (snapshot) => {
+  snapshot.forEach((child) => {
+    
+
+  
+   lst_Files2.push(child.val());
+  
+   
+  });})
+
+  
+
+
+    </script>
+</body>
+</html>

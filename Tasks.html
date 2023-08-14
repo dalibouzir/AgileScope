@@ -1,0 +1,627 @@
+<html>
+    <header>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-analytics.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+        <title>AgileScope</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="Tasks.js"  type="text/js" />
+        <link rel="stylesheet" href="Tasks.css">
+    </header>
+    <body class="body">
+      <div>
+      <a href="mainFrame.html">
+        <button id="backButton" ><i class="fa-solid fa-house fa-bounce"></i></button>
+      </a></div>
+<div class='app'>
+  <main class='project'>
+   
+    <div class='project-info'>
+      <h1>Homepage Design</h1>
+      <div class='project-participants'>
+        <span id="user" style="font-weight: bolder;"></span>
+        <span></span>
+        <span></span>
+        <button id="btn" class='project-participants__add'>Add Task</button>
+        
+          
+        </div>
+    </div>
+    <div class='project-tasks'>
+
+      <div  id='ready' class='project-column'>
+        <div class='project-column-heading'>
+          <h2 class='project-column-heading__title'>Task Ready</h2><button class='project-column-heading__options'><i class="fas fa-ellipsis-h"></i></button>
+        </div>
+        
+        <!--  Tasks that are ready -->
+ 
+      </div>
+      
+      <div id='inprog' class='project-column'>
+        <div class='project-column-heading'>
+          <h2 class='project-column-heading__title'>In Progress</h2><button class='project-column-heading__options'><i class="fas fa-ellipsis-h"></i></button>
+        </div>
+          <!--  Tasks that are in progress -->
+
+      </div>
+
+      <div id="needreview" class='project-column'>
+        <div class='project-column-heading'>
+          <h2 class='project-column-heading__title'>Needs Review</h2><button class='project-column-heading__options'><i class="fas fa-ellipsis-h"></i></button>
+        </div>
+          <!--  Tasks that needs review -->
+        
+      </div>
+
+      <div id="done" class='project-column'>
+        <div class='project-column-heading'>
+          <h2 class='project-column-heading__title'>Done</h2><button class='project-column-heading__options'><i class="fas fa-ellipsis-h"></i></button>
+        </div>
+        <!-- Done Tasks -->
+      </div>
+      
+    </div>
+  </main>
+  <aside class='task-details'>
+    <div class='tag-progress'>
+      <h2 id="Progress">Task Progress</h2>
+      
+    </div>
+
+    <!-- Comments  -->
+    <div class='task-activity' style="  height:59%;">
+      <h style="font-weight: bolder;"> Recent Comments</h>
+    
+      <button id="addcmnt" class='project-participants__add'>Add comment</button></br>
+      <ul id="comments" style="overflow:scroll; height:100%;"> 
+        
+      </ul>
+    </div>
+  </aside>
+</div>
+<!-- Comment container -->
+<div id="myModal2" class="modal2">
+  <div class="modal2-content">
+    <span class="close2" id="close">&times;</span>
+    <h2></h2>
+    <form>
+      <input id="cmt" required='' type='text'>
+      <label alt='Comment' placeholder='Comment'></label>
+    </form>
+      <br>
+      <div class="wrapper">
+        <a type="submit" onclick="addCmnt()" class="button" href="#" value="Save">Send</a>
+    </div>
+    
+    <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+            </filter>
+        </defs>
+    </svg>
+    </form>
+  </div>
+</div>
+<!-- Container -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Select job position and enter task:</h2>
+    <form >
+      
+      <label for="task_prio">Task priority</label>
+      <select id="task_prio" name="task_prio">
+        <option value="Task Ready">Task Ready</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Needs Review">Needs Review</option>
+        <option value="Done">Done</option>
+      </select>
+      <br>
+      <label for="task">Task:</label>
+      <input id="taskinp" type="text" class="chat-input" autocomplete="off" placeholder="Enter your Task here">
+      <br>
+    <input id="Save" onclick="AddTask()" type="submit" value="Save">
+    </form>
+  </div>
+</div>
+
+<script src= "FireBase.js"></script>
+<script>
+  ////////////FIREBASE///////////
+//   const firebaseConfig = {
+//   apiKey: "AIzaSyD57cd0oZ4jdqePYTL-3eteo2VMWC8Gngc",
+//   authDomain: "project-management-3200a.firebaseapp.com",
+//   databaseURL: "https://project-management-3200a-default-rtdb.firebaseio.com",
+//   projectId: "project-management-3200a",
+//   storageBucket: "project-management-3200a.appspot.com",
+//   messagingSenderId: "86114194888",
+//   appId: "1:86114194888:web:bd38f7aeef9c9116bbdcfd",
+//   measurementId: "G-3906DXMT4G"
+// };
+
+	// Initialize Firebase
+	firebase.initializeApp(firebaseConfig);
+    var auth = firebase.auth();
+    var db =firebase.database();
+//////////////USER NAME///////////
+
+function createSequence(text) {
+  let sequence = "";
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === "@") {
+      break;
+    }
+    sequence += text[i];
+  }
+  return sequence;
+}
+var usee="";
+var myName = "";
+auth.onAuthStateChanged((user) => {
+	if (user) {
+
+    var ls=[];
+
+var usersRef = firebase.database().ref('profiles');
+
+usersRef.on('value', (snapshot) => {
+  snapshot.forEach((child) => {
+    var usee="";
+
+
+    ls.push(child.val());
+  }); 
+
+  for (let i = 0; i < ls.length; i++) {
+
+    if(ls[i]['user']==user.email){
+    document.getElementById("user").innerHTML=ls[i]['name'];}
+    
+  }
+  
+
+
+});
+firebase.database().ref("Task").on("child_added", function (snapshot) {
+        snapshot.val().position = ls[i]['position'];
+    })
+
+
+		usee=user.email;
+   
+	  var uid = user.uid;
+    firebase.database().ref("messages").on("child_added", function (snapshot) {
+        snapshot.val().sender = name;
+    })
+	} else {
+		console.log("error");
+	}
+  });
+
+
+
+////////ELEMENTS/////
+var myName = "";
+var modal = document.getElementById("myModal");
+var modal2 = document.getElementById("myModal2");
+var btn = document.getElementById("btn");
+var span = document.getElementsByClassName("close")[0];
+var span2 = document.getElementsByClassName("close2")[0];
+var job = document.getElementById("jobPosition");
+var task = document.getElementById("task");
+
+
+addcmnt.onclick = function() {
+  modal2.style.display = "block";
+
+}
+span2.onclick = function() {
+  modal2.style.display = "none";
+}
+window.onclick = function(event) {
+  if (event.target != modal2) {
+    modal2.style.display = "none";
+  }
+
+}
+btn.onclick = function() {
+  modal.style.display = "block";
+
+}
+span.onclick = function() {
+  modal.style.display = "none";
+}
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+
+}
+
+function createSequences(text) {
+  let sequence = "";
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === " GMT+0100") {
+      break;
+    }
+    sequence += text[i];
+  }
+  return sequence;
+}
+const currentDate = new Date();
+
+  
+////////////ADDING TASKS.//////////
+function AddTask() {
+  for (let i = 0; i < ls.length; i++) {
+    
+    if(ls[i]['user']==usee){
+      if(ls[i]['position']=='Client')
+      alert("As A Client You're Not Allowed To Add Tasks");
+      else{
+        
+     
+
+var task_prio = document.getElementById("task_prio").value;
+
+var currentDate = new Date();
+
+
+var database = firebase.database();
+var message = document.getElementById("taskinp").value;
+var job2="";
+for (let i = 0; i < ls.length; i++) {
+    if(ls[i]['user']==usee){
+    job2=ls[i]['position'];
+   }
+    
+  }
+   
+
+firebase.database().ref("task").push().set({
+      "sender":usee,
+			"message": message,
+      "task_prio":task_prio,
+      "position":job2,
+      "date":currentDate.toISOString()
+		});
+    return false; }
+    }}
+  }
+ 
+	/////////////////SHOWING TASKS//////://
+
+  var Groups=[];
+var dev=[];
+
+var usersRef = firebase.database().ref('Groupe');
+usersRef.on('value', (snapshot) => {
+    snapshot.forEach((child) => {
+    Groups.push(child.val());
+    dev.push(child.val().groupe_Devs);
+      })
+   
+  
+  auth.onAuthStateChanged((user) => {
+	if (user) {
+		usee=user.email;
+	  var uid = user.uid;
+    firebase.database().ref("messages").on("child_added", function (snapshot) {
+        snapshot.val().sender = name;
+    })
+
+  firebase.database().ref("task").on("child_added", function (snapshot) {
+    for(let i=0;i<dev.length;i++){
+      if(dev[i].includes(user.email)&&dev[i].includes(snapshot.val().sender)){
+    snapshot.val().sender = name;
+    if(snapshot.val().task_prio=="Task Ready"){
+
+var html="";
+html += "<div id='task"+snapshot.key+"'class='task' draggable='true'>";
+html+=`
+<div class='task__tags'><span class='task__tag task__tag--copyright'> ${snapshot.val().position}</span><button class='task__options'><i class="fas fa-ellipsis-h"></i></button></div>
+     <br>
+      <span>${snapshot.val().message}</span>
+      
+      <div class='task__stats'><br>
+        <span><i class="fas fa-flag">${snapshot.val().date}</i></span>
+        `
+if (snapshot.val().sender == user.email) {
+
+
+  html+=`  <span  class='task__owner'><button class='delbtn' data-id='${snapshot.key}' onclick='deleteTask(this);' color='white'></span>
+      </div>
+    </div>`
+  }
+    document.getElementById("ready").innerHTML += html;}
+
+
+if(snapshot.val().task_prio=="In Progress"){  
+var html="";
+html += "<div id='task"+snapshot.key+"'class='task' draggable='true'>";
+html+=`
+ <div class='task__tags'><span class='task__tag task__tag--copyright'> ${snapshot.val().position}</span><button class='task__options'><i class="fas fa-ellipsis-h"></i></button></div>
+     <br>
+      <span>${snapshot.val().message}</span>
+      
+      <div class='task__stats'><br>
+        <span><i class="fas fa-flag">${snapshot.val().date}</i></span>
+        `
+if (snapshot.val().sender == user.email) {
+
+
+  html+=`  <span  class='task__owner'><button class='delbtn' data-id='${snapshot.key}' onclick='deleteTask(this);' color='white'></span>
+      </div>
+    </div>`}
+    document.getElementById("inprog").innerHTML += html; }
+
+
+
+if(snapshot.val().task_prio=="Needs Review"){  
+var html="";
+html += "<div id='task"+snapshot.key+"'class='task' draggable='true'>";
+html+=`
+<div class='task__tags'><span class='task__tag task__tag--copyright'> ${snapshot.val().position}</span><button class='task__options'><i class="fas fa-ellipsis-h"></i></button></div>
+     <br>
+      <span>${snapshot.val().message}</span>
+      
+      <div class='task__stats'><br>
+        <span><i class="fas fa-flag">${snapshot.val().date}</i></span>
+        `
+if (snapshot.val().sender == user.email) {
+
+
+  html+=`  <span  class='task__owner'><button class='delbtn' data-id='${snapshot.key}' onclick='deleteTask(this);' color='white'></span>
+      </div>
+    </div>`}
+    document.getElementById("needreview").innerHTML += html;    }
+
+
+
+if(snapshot.val().task_prio=="Done"){  
+var html="";
+html += "<div id='task"+snapshot.key+"'class='task' draggable='true'>";
+html+=`
+      <div class='task__tags'><span class='task__tag task__tag--copyright'> ${snapshot.val().position}</span><button class='task__options'><i class="fas fa-ellipsis-h"></i></button></div>
+     <br>
+      <span>${snapshot.val().message}</span>
+      
+      <div class='task__stats'><br>
+        <span><i class="fas fa-flag">${snapshot.val().date}</i></span>
+
+        `
+   
+if (snapshot.val().sender == user.email) {
+
+
+html+=`  <span  class='task__owner'><button class='delbtn' data-id='${snapshot.key}' onclick='deleteTask(this);' color='white'></span>
+      </div>
+    </div>`}document.getElementById("done").innerHTML += html;
+  } 
+}
+    }
+    
+  });
+
+  
+       }
+         
+      })
+     
+  
+  })
+//////////DELETING TASK//////////
+
+function deleteTask(self) {
+	var messageId = self.getAttribute("data-id");
+  firebase.database().ref("task").child(messageId).remove();
+  location.reload();
+}
+
+///////////////////// CREATING COMMENTS../////////////
+
+function addCmnt(){
+  var database = firebase.database();
+var comment = document.getElementById("cmt").value;
+  firebase.database().ref("comments").push().set({
+      "sender":usee,
+			"comment": comment,
+      // "task_prio":task_prio,
+      // "position":job,
+      "date":currentDate.toISOString()
+		});
+    setTimeout(function() {
+  // Your code here 
+  modal2.style.display = "none";
+}, 2000);
+   
+    return false;
+
+}
+
+
+
+      
+var usersRef = firebase.database().ref('profiles');
+    var nameRef = usersRef.child('name');
+    usersRef.on('value', (snapshot) => {
+      snapshot.forEach((child) => {
+        ls.push(child.val());}); 
+        })
+
+var usersRef = firebase.database().ref('Groupe');
+var ls=[];
+
+usersRef.on('value', (snapshot) => {
+  Groups=[];
+dev=[];
+   snapshot.forEach((child) => {
+   Groups.push(child.val());
+   dev.push(child.val().groupe_Devs);
+
+  
+  })
+
+
+firebase.database().ref("comments").on("child_added", function (snapshot) {
+  for (let i = 0; i < ls.length; i++) {
+    
+
+    if(ls[i]['user']==snapshot.val().sender){
+      auth.onAuthStateChanged((user) => {
+	if (user) {
+        for(let j=0;j<dev.length;j++){
+        if(dev[j].includes(user.email)&&dev[j].includes(snapshot.val().sender)){
+  
+ 
+      
+   
+		var html = "";
+    html += "<li id='message-" + snapshot.key + "'>";
+      html +=`
+
+            
+              <span class='task-icon task-icon--attachment'><i class="fas fa-paperclip"></i></span>
+              <b>${ls[i]['name']}: </b></br>${snapshot.val().comment}
+              
+            </br>
+              <span><i class="fas fa-flag">time:${snapshot.val().date}</i></span>
+      </li>`; document.getElementById("comments").innerHTML += html;} 
+    }}
+  })}
+  }
+       
+	});
+
+  groups=[];
+  Dev=[];
+
+////////////////
+ var count=0;
+ var numElements=0;
+ var ls2=[];
+
+ var count_Done=0;
+ var count_PM=0;
+ var count_dev=0;
+ var count_dm=0;
+ var count_UiD=0;
+ var count_PM_Sum=0;
+ var count_dev_Sum=0;
+ var count_dm_Sum=0;
+ var count_UiD_Sum=0;
+var c=0;
+var usersRef2 = firebase.database().ref('task');
+
+usersRef2.on('value', (snapshot) => {  
+
+  
+   
+   
+  snapshot.forEach((child) => {
+    ls2.push(child.val());
+     for(let j=0;j<dev.length;j++){
+if(dev[j].includes(child.val().sender)){
+  c+=1;
+
+  numElements = c;
+}}
+     count+=1;
+    
+  }) 
+  for (let i = 0; i < ls2.length; i++) {
+     
+ 
+  for(let j=0;j<dev.length;j++){
+if(dev[j].includes(ls2[i]['sender'])){
+    if(ls2[i]['task_prio']=='Done'){
+      count_Done+=1;
+      if(ls2[i]['position']=="projectManager"){
+        count_PM+=1;
+      }
+      if(ls2[i]['position']=="developer"){
+        count_dev+=1;
+      }
+      if(ls2[i]['position']=="uiDesigner"){
+        count_UiD+=1;
+      }
+      if(ls2[i]['position']=="dataManager"){
+        count_dm+=1;
+      }
+   }
+   if(ls2[i]['position']=="projectManager"){
+        count_PM_Sum+=1;
+      }
+      if(ls2[i]['position']=="developer"){
+        count_dev_Sum+=1;
+      }
+      if(ls2[i]['position']=="uiDesigner"){
+        count_UiD_Sum+=1;
+      }
+      if(ls2[i]['position']=="dataManager"){
+        count_dm_Sum+=1;
+      }
+    
+  }
+  }}
+
+
+
+
+
+
+ 
+  firebase.database().ref("comments").on("child_added", function (snapshot) {
+     html='';
+   
+    html+=`
+    
+    <div class='tag-progress'>
+        <p>Project Manager <span>${count_PM}/${count_PM_Sum}</span></p>
+        <progress class="progress progress--illustration" max="${count_PM_Sum}" value="${count_PM}"> 7 </progress>
+      </div>
+
+       <div class='tag-progress'>
+        <p>Developer <span>${count_dev}/${count_dev_Sum}</span></p>
+        <progress class="progress progress--Dev" max="${count_dev_Sum}" value="${count_dev}"> 7 </progress>
+      </div>
+
+      <div class='tag-progress'>
+        <p>Ui Designer <span>${count_UiD}/${ count_UiD_Sum}</span></p>
+        <progress class="progress progress--copyright" max="${count_UiD_Sum}" value="${count_UiD}"> 7 </progress>
+      </div>
+
+      <div class='tag-progress'>
+        <p>Data Manager <span>${count_dm}/${count_dm_Sum}</span></p>
+        <progress class="progress progress--design" max="${count_dm_Sum}" value="${count_dm}"> 7 </progress>
+      </div>
+      <div class='tag-progress'>
+        <p>Project Progress <span>${count_Done}/${numElements}</span></p>
+        <progress class="progress progress--Project" max="${numElements}" value="${count_Done}"> 7 </progress>
+      </div>
+    `
+
+  }) 
+  document.getElementById("Progress").innerHTML += html;
+  
+html='';
+})
+  
+
+
+
+	
+})
+
+</script>
+<!-- create a list -->
+
+
+    </body>
+</html>

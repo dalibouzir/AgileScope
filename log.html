@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+  <head>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="log.css"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+
+    <div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+   </div>
+
+
+
+
+    <div class="main">
+      <div class="container a-container" id="a-container">
+        <form class="form" id="a-form" method="" action="">
+          <h2 class="form_title title">Create Account</h2>
+          
+          <span class="form__span">Use email for registration</span>
+          
+          <label for="username"><b>UserName :</b></label>
+        <input class="form__input" type="text" id="username" placeholder="Enter username" name="name" required>
+        
+    
+        <label for="email"><b>E-Mail : </b></label>
+        <input class="form__input" type="text" id="email" placeholder="Enter Email" name="email" required>
+        
+        <label for="psw"><b>Password :</b></label>
+        <input class="form__input" type="password" id="password" placeholder="Enter Password" name="psw" required>
+    
+        <label for="psw-repeat"><b>Repeat Password :</b></label>
+        
+        <input class="form__input" type="password" placeholder="Repeat Password" name="psw-repeat" required>
+        <div>
+        <input class="form__button button submit"  type="button"id="submit1"  value='Login with Google+' >
+          <button class="form__button button submit"   type="button" id="signup" value='Sign Up' >SIGN UP</button>
+       </div> </form>
+      </div>
+      <!--                     LogIN                   --> 
+      <div class="container b-container" id="b-container">
+        <form class="form" id="b-form" method="" action="">
+          <h2 class="form_title title">Sign in to Website</h2>
+          
+          <label><b>E-Mail :</b></label>
+          <input class="form__input"  type="text" id="email_log" placeholder="Entrer le nom d'utilisateur" name="username" required>
+         
+          <label><b>Password : </b></label>
+          <input class="form__input"  type="password" id="password_log" placeholder="Entrer le mot de passe" name="password" required>
+         <div class="submitting">
+          <!-- <input class="form__button button submit"  type="button"id="submit2"  value='Login with Google+' > -->
+          <input type="button" id='submit' class="form__button button submit" value='LOGIN' >
+          </div>
+        </form>
+        
+      </div>
+      <div class="switch" id="switch-cnt">
+        <div class="switch__circle"></div>
+        <div class="switch__circle switch__circle--t"></div>
+        <div class="switch__container" id="switch-c1">
+          <h2 class="switch__title title">Welcome Back !</h2>
+          <p class="switch__description description">To keep connected with us please login with your personal info</p>
+          <button class="switch__button button switch-btn">SIGN IN</button>
+        </div>
+        <div class="switch__container is-hidden" id="switch-c2">
+          <h2 class="switch__title title">Hello Friend !</h2>
+          <p class="switch__description description">Enter your personal details and start journey with us</p>
+          <button class="switch__button button switch-btn">SIGN UP</button>
+        </div>
+      </div>
+    </div>
+    <script src= "FireBase.js"></script>
+    
+    <script type="module" >
+       
+       
+  
+///////////////////////////////DESIGN///////////////////////////////////////////////
+
+let switchCtn = document.querySelector("#switch-cnt");
+let switchC1 = document.querySelector("#switch-c1");
+let switchC2 = document.querySelector("#switch-c2");
+let switchCircle = document.querySelectorAll(".switch__circle");
+let switchBtn = document.querySelectorAll(".switch-btn");
+let aContainer = document.querySelector("#a-container");
+let bContainer = document.querySelector("#b-container");
+let allButtons = document.querySelectorAll(".submit");
+
+let getButtons = (e) => e.preventDefault()
+
+let changeForm = (e) => {
+
+    switchCtn.classList.add("is-gx");
+    setTimeout(function(){
+        switchCtn.classList.remove("is-gx");
+    }, 1500)
+
+    switchCtn.classList.toggle("is-txr");
+    switchCircle[0].classList.toggle("is-txr");
+    switchCircle[1].classList.toggle("is-txr");
+
+    switchC1.classList.toggle("is-hidden");
+    switchC2.classList.toggle("is-hidden");
+    aContainer.classList.toggle("is-txl");
+    bContainer.classList.toggle("is-txl");
+    bContainer.classList.toggle("is-z200");
+}
+
+let mainF = (e) => {
+    for (var i = 0; i < allButtons.length; i++)
+        allButtons[i].addEventListener("click", getButtons );
+    for (var i = 0; i < switchBtn.length; i++)
+        switchBtn[i].addEventListener("click", changeForm)
+}
+
+window.addEventListener("load", mainF);
+///////////////////////////////FireBase///////////////////////////////////////////////
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"   
+    import { getDatabase , set, ref } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-analytics.js";
+    import { getAuth,signInWithPopup, GoogleAuthProvider , createUserWithEmailAndPassword ,signInWithPhoneNumber , signInWithEmailAndPassword ,signOut} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+   
+    
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+      
+    
+
+
+//////////////////////////LOGIN/////////////////////////////////////
+document.getElementById("submit").addEventListener('click',(e)=>{ 
+        var email = document.getElementById('email_log').value;
+        var password = document.getElementById('password_log').value;
+        signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    
+
+
+    alert("Connected");
+    window.location.assign("mainFrame.html");
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    alert(errorMessage);
+  });
+     
+
+    });
+
+
+///////////GOOGLE SIGNIN/////////////
+
+const provider = new GoogleAuthProvider(app);
+document.getElementById("submit1").addEventListener('click',(e)=>{
+signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    
+    const user = result.user;
+    alert("created");
+    window.location.assign("mainFrame.html");
+    
+    // ...
+  }).catch((error) => {
+    alert(error);
+   
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+});
+
+//////////////////////////////////////SIGNUP/////////////////////////////////
+
+
+
+document.getElementById("signup").addEventListener('click',(e)=>{ 
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            var username = document.getElementById('username').value;
+           console.log(username);
+            createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+            // Signed in 
+              const user = userCredential.user;
+
+            set(ref(database, 'users/' + user.uid),{
+                  username: username,
+                  email: email
+              })
+             window.location.reload();
+              alert("created ");
+              
+              // ...
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              alert(errorMessage);
+            // ..
+            });
+
+});
+
+    </script>
+  </body>
+</html>
